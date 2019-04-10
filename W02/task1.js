@@ -7,7 +7,7 @@ class Vec3{
         this.z = z;
     }
 
-    get min(){
+    getMin(){
         var min = this.x;
 
         if(min > this.y){
@@ -19,7 +19,7 @@ class Vec3{
         return min;
     }
 
-    get mid(){
+    getMid(){
         var mid = this.x;
         
         if(mid > this.y && mid > this.z){
@@ -33,7 +33,7 @@ class Vec3{
         return mid;
     }
 
-    get max(){
+    getMax(){
         var max = this.x;
         
         if(max < this.y){
@@ -51,9 +51,9 @@ function init(){
     var y;
     var z;
 
-    x = $("#x").val();
-    y = $("#y").val();
-    z = $("#z").val();
+    x = parseFloat($("#x").val());
+    y = parseFloat($("#y").val());
+    z = parseFloat($("#z").val());
 
     if(x == "" || y == "" || z == ""){
         alert("x, y, zをすべて入力してから決定ボタンを押してください");
@@ -68,7 +68,7 @@ function showMin(){
         alert("まずx, y, zをすべて入力してから決定ボタンを押してください");
         return;
     }
-    $(".view").html("min = " + v1.min);
+    $(".view").html("min = " + v1.getMin());
 }
 
 function showMid(){
@@ -76,7 +76,7 @@ function showMid(){
         alert("まずx, y, zをすべて入力してから決定ボタンを押してください");
         return;
     }
-    $(".view").html("mid = " + v1.mid);
+    $(".view").html("mid = " + v1.getMid());
 }
 
 function showMax(){
@@ -84,5 +84,5 @@ function showMax(){
         alert("まずx, y, zをすべて入力してから決定ボタンを押してください");
         return;
     }
-    $(".view").html("max = " + v1.max);
+    $(".view").html("max = " + v1.getMax());
 }

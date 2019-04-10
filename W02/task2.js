@@ -15,17 +15,17 @@ function init(){
     var y = [];
     var z = [];
 
-    x[0] = $("#x0").val();
-    y[0] = $("#y0").val();
-    z[0] = $("#z0").val();
+    x[0] = parseFloat($("#x0").val());
+    y[0] = parseFloat($("#y0").val());
+    z[0] = parseFloat($("#z0").val());
 
-    x[1] = $("#x1").val();
-    y[1] = $("#y1").val();
-    z[1] = $("#z1").val();
+    x[1] = parseFloat($("#x1").val());
+    y[1] = parseFloat(("#y1").val());
+    z[1] = parseFloat($("#z1").val());
 
-    x[2] = $("#x2").val();
-    y[2] = $("#y2").val();
-    z[2] = $("#z2").val();
+    x[2] = parseFloat($("#x2").val());
+    y[2] = parseFloat($("#y2").val());
+    z[2] = parseFloat($("#z2").val());
 
     for(var i=0; i<3; i++){
         if(x[i] == "" || y[i] == "" || z[i] == ""){
