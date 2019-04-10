@@ -20,7 +20,7 @@ function init(){
     z[0] = parseFloat($("#z0").val());
 
     x[1] = parseFloat($("#x1").val());
-    y[1] = parseFloat(("#y1").val());
+    y[1] = parseFloat($("#y1").val());
     z[1] = parseFloat($("#z1").val());
 
     x[2] = parseFloat($("#x2").val());
