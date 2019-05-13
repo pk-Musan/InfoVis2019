@@ -21,22 +21,17 @@ function main(){
     document.body.appendChild( renderer.domElement );
 
     var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
-    
     var material = new THREE.ShaderMaterial({
         vertexColors: THREE.VertexColors,
-        vertexShader: document.getElementById('gouraud.vert').text,
-        fragmentShader: document.getElementById('gouraud.frag').text,  
+        vertexShader: document.getElementById('shader2.vert').text,
+        fragmentShader: document.getElementById('shader2.frag').text,
         uniforms: {
-            light_position: { type: 'v3', value: light.position }
+          light_position: { type: 'v3', value: light.position }
         }
     });
 
-    console.log(material);
-
     var torus_knot = new THREE.Mesh( geometry, material );
     scene.add( torus_knot );
-
-    console.log(torus_knot);
 
     loop();
 
