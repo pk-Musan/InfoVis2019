@@ -104,9 +104,13 @@ function main(){
         var x_NDC = 2 * (x_window - vx) / vw - 1;
         var y_NDC = -(2 * (y_window - vy) / vh - 1);
 
-        var origin = new THREE.Vector2(x_NDC, y_NDC);
-        console.log(origin.x, origin.y);
 
+        var origin = new THREE.Vector2(x_NDC, y_NDC);
+        //console.log(origin.x, origin.y);
+        //var origin = new THREE.Vector3(x_NDC, y_NDC, 1);
+        //var direction = origin.unproject(camera);
+
+        //var raycaster = new THREE.Raycaster(origin, camera);
         var raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(origin, camera);
         var intersects = raycaster.intersectObjects(scene.children);
