@@ -28,6 +28,7 @@ function main(){
         uniforms: {
           light_position: { type: 'v3', value: light.position }
         },
+        depthWrite: false,
         side: THREE.BackSide
     });
 
