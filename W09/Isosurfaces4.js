@@ -107,7 +107,7 @@ function Isosurfaces( volume, isovalue )
         }
 
         if(z == volume.resolution.z - 2){
-            console.log("z+1");
+            //console.log("z+1");
             for ( var y2 = 0; y2 < volume.resolution.y - 1; y2++ )
             {
                 for ( var x2 = 0; x2 < volume.resolution.x - 1; x2++ )
