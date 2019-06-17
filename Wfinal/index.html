@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Final Task</title>
+
+    <script src="three.min.js"></script>
+	<script src="TrackballControls.js"></script>
+	<script src="https://threejs.org/examples/js/math/Lut.js"></script>
+	<script src="https://naohisas.github.io/KVS.js/Build/KVS.min.js"></script>
+	<script src="https://naohisas.github.io/KVS.js/Build/KVS2THREE.min.js"></script>
+	<script src="https://naohisas.github.io/KVS.js/Source/KVSLobsterData.js"></script>
+	<script src="Bounds.js"></script>
+    <script src="Isosurfaces.js"></script>
+    <script src="Slice.js"></script>
+	<script src="main.js"></script>
+</head>
+<body>
+    <script type="x-shader/x-vertex" id="shader.vert">
+        varying vec3 point_color;
+        varying vec4 point_position;
+        varying vec3 normal_vector;
+        uniform vec3 light_position;
+        vec3 LambertianReflection( vec3 C, vec3 L, vec3 N )
+        {
+            float ka = 0.4;
+            float kd = 0.6;
+            float dd = max( dot( N, L ), 0.0 );
+            float Ia = ka;
+            float Id = kd * dd;
+            return C * ( Ia + Id );
+        }
+        void main()
+        {
+            point_position = modelViewMatrix * vec4( position, 1.0 );
+            normal_vector = normalMatrix * normal;
+            vec3 C = color;
+            vec3 L = normalize( light_position - point_position.xyz );
+            vec3 N = normalize( normal_vector );
+            point_color = LambertianReflection( C, L, N );
+            gl_Position = projectionMatrix * point_position;
+        }
+    </script>
+         
+    <script type="x-shader/x-fragment" id="shader.frag">
+        varying vec3 point_color;
+        void main()
+        {
+            gl_FragColor = vec4( point_color, 1.0 );
+        }
+    </script>
+
+    <div id="report" style="width: 40%; float: left;">
+        <div>
+            <h1>情報可視化論　最終課題</h1>
+            <h2>191X219X　室谷敏生</h2>
+        </div>
+
+        <div>
+            <h3>＜使用した技術・システム＞</h3>
+            <div>
+                Isosuface.jsを用いてある閾値以上の点を面で結んだものを可視化した．また，Slice.jsを用いてオブジェクトを平面で切断した際の断面図も可視化した．
+                <br>
+                データセットにはKVSLobsterData.jsを使用した．
+            </div>
+        </div>
+
+        <div>
+            <h3>＜可視化結果＞</h3>
+            <div>
+                Isosurface.jsを用いた可視化では，値の高い点の近くであればあるほど面は赤に近くなり，低ければ低いほど青に近づく(中間は緑)．また，Slice.jsを用いた断面図の可視化でも前者の可視化でisovalueの値を高くしても赤色で残るような部分(胴体や爪の芯の部分)が赤色に近くなる．
+            </div>
+        </div>
+
+        <div>
+            <h3>＜UIについて＞</h3>
+            <div>
+                前者のIsosurface.jsを用いた可視化を行う場合は，isosurfaceにチェックを入れ(sliceのチェックは外す)，isovalueの値をスライドバーから変更後，Applyボタンを押す．
+                <br>
+                後者のSlice.jsを用いた可視化を行う場合は，sliceにチェックを入れ(isovalueのチェックは外す)，a, b, c, dの値をスライドバーから変更後，Applyボタンを押す．
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 60%; float: left">
+        <div id="controller" style="height: 20%">
+            <div id="isovalue-select" style="float: left; margin-right: 5%">
+                <input type="checkbox" checked="checked" id="isovalue">
+                <label style="font-family: Arial, Helvetica, sans-serif">isosurface</label>
+
+                <br/>
+
+                <label style="font-family: Arial, Helvetica, sans-serif">isovalue：</label>
+                <span id="isovalue-show"></span>
+                
+                <br/>
+                
+                <input type="range" min="0" max="255" step="1" value="128"
+                id="isovalue-input" onchange="setIsovalue()"/>
+            </div>
+
+            <div id="slicevalue-select">
+                <input type="checkbox" id="slice">
+                <label style="font-family: Arial, Helvetica, sans-serif">slice</label>
+
+                <br>
+
+                <div style="float: left">
+                    <label style="font-family: Arial, Helvetica, sans-serif">a：</label>
+                    <span id="a-show"></span>
+                
+                    <br/>
+
+                    <input type="range" min="-3" max="3" step="1" value="1" id="a-input" onchange="setSliceValue()"/>
+                </div>
+
+                <div style="float: left">
+                    <label style="font-family: Arial, Helvetica, sans-serif">b：</label>
+                    <span id="b-show"></span>
+                
+                    <br/>
+
+                    <input type="range" min="-3" max="3" step="1" value="-1" id="b-input" onchange="setSliceValue()"/>
+                </div>
+
+                <div style="float: left">
+                    <label style="font-family: Arial, Helvetica, sans-serif">c：</label>
+                    <span id="c-show"></span>
+                
+                    <br/>
+
+                    <input type="range" min="-3" max="3" step="1" value="2" id="c-input" onchange="setSliceValue()"/>
+                </div>
+
+                <div>
+                    <label style="font-family: Arial, Helvetica, sans-serif">d：</label>
+                    <span id="d-show"></span>
+                
+                    <br/>
+
+                    <input type="range" min="-3" max="3" step="1" value="-1" id="d-input" onchange="setSliceValue()"/>
+                </div>
+            </div>
+           
+            <br/>
+
+            <div>
+                <button id="change-isovalue" style="font-family: Arial, Helvetica, sans-serif" onclick="changeValue();">Apply</button>
+            </div>
+        </div>
+        
+        <div id="display" style="height: 80%"></div>
+    </div>
+
+    <script>main();</script>
+</body>
+</html>
